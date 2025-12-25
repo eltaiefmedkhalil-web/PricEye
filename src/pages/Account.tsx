@@ -1,10 +1,12 @@
+import { useState } from 'react'; // Ajout de useState
 import { motion } from 'framer-motion';
-import { LogOut, User, CreditCard, Calendar, ExternalLink } from 'lucide-react';
+import { LogOut, User, CreditCard, Calendar, ExternalLink, Loader2 } from 'lucide-react'; // Ajout de Loader2
 import { useAuthContext } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
 export function Account() {
-  const { user, profile, subscription, signOut } = useAuthContext();
+  const { user, profile, subscription, signOut, session } = useAuthContext(); // Récupération de la session
+  const [loading, setLoading] = useState(false); // État de chargement
 
   const getSubscriptionBadge = () => {
     if (!subscription) return { text: 'No Subscription', color: 'bg-slate-500/20 text-slate-400' };
@@ -19,6 +21,48 @@ export function Account() {
         return { text: 'Canceled', color: 'bg-red-500/20 text-red-400' };
       default:
         return { text: 'Pending', color: 'bg-slate-500/20 text-slate-400' };
+    }
+  };
+
+  // Nouvelle fonction pour gérer l'abonnement
+  const handleSubscribe = async () => {
+    try {
+      setLoading(true);
+      
+      if (!session?.access_token) {
+        throw new Error('No active session');
+      }
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({
+            mode: 'subscription',
+            trial_period_days: 30,
+            success_url: `${window.location.origin}/success?onboarding=complete`,
+            cancel_url: `${window.location.origin}/account`,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const { url } = await response.json();
+      if (url) {
+        window.location.href = url;
+      }
+    } catch (error) {
+      console.error('Error creating subscription:', error);
+      // Vous pourriez ajouter une gestion d'erreur visuelle ici (ex: toast ou alert)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -131,9 +175,21 @@ export function Account() {
                     Open PricEye App
                   </a>
                 ) : (
-                  <Link to="/signup" className="btn-primary inline-flex items-center gap-2">
-                    Start Subscription
-                  </Link>
+                  // Bouton modifié pour appeler handleSubscribe au lieu du lien vers /signup
+                  <button 
+                    onClick={handleSubscribe}
+                    disabled={loading}
+                    className="btn-primary inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      'Start Subscription'
+                    )}
+                  </button>
                 )}
               </div>
             </div>
