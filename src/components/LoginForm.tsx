@@ -5,9 +5,8 @@ import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuthContext } from '../contexts/AuthContext';
 
-// Si votre dashboard est aussi sur Render, remplacez cette URL par 'https://priceye.onrender.com'
+// L'adresse du dashboard (Frontend) vers laquelle on redirige
 const DASHBOARD_URL = 'https://pric-eye.vercel.app';
-const BACKEND_API_URL = 'https://priceye.onrender.com';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
@@ -22,59 +21,17 @@ export function LoginForm() {
   useEffect(() => {
     if (user && !authLoading) {
       if (subscription?.status === 'active' || subscription?.status === 'trialing') {
-        const syncAndRedirect = async () => {
-          if (session?.access_token) {
-            setStatus('Connecting to application...');
-            setLoading(true);
-
-            let redirectUrl = null;
-
-            try {
-              // Appel à votre API Backend
-              const response = await fetch(`${BACKEND_API_URL}/api/auth/login`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${session.access_token}`
-                },
-                body: JSON.stringify({
-                  access_token: session.access_token,
-                  refresh_token: session.refresh_token,
-                  user_id: user.id,
-                  email: user.email
-                })
-              });
-
-              // Si l'API renvoie une URL de redirection (ex: { "redirectUrl": "..." }), on l'utilise
-              if (response.ok) {
-                const data = await response.json().catch(() => ({}));
-                if (data.redirectUrl) {
-                  redirectUrl = data.redirectUrl;
-                }
-              }
-            } catch (err) {
-              console.error('Error connecting to backend API:', err);
-            }
-
-            // Redirection : Soit celle fournie par l'API, soit celle construite manuellement
-            if (redirectUrl) {
-              window.location.href = redirectUrl;
-            } else {
-              const url = new URL(DASHBOARD_URL);
-              // On passe 'access_token' explicitement, certains systèmes préfèrent ce nom à 'token'
-              url.searchParams.set('access_token', session.access_token);
-              url.searchParams.set('refresh_token', session.refresh_token || '');
-              // On garde aussi 'token' pour la compatibilité
-              url.searchParams.set('token', session.access_token);
-              
-              window.location.href = url.toString();
-            }
-          } else {
-            navigate('/success');
-          }
-        };
-
-        syncAndRedirect();
+        if (session?.access_token) {
+          setStatus('Redirecting to dashboard...');
+          
+          // Redirection vers le Dashboard Vercel avec le token en paramètre.
+          // Le Dashboard utilisera ce token pour contacter l'API (Render).
+          const targetUrl = `${DASHBOARD_URL}/?token=${session.access_token}`;
+          
+          window.location.href = targetUrl;
+        } else {
+          navigate('/success');
+        }
       } else if (subscription?.status === 'none') {
         setLoading(true);
         setStatus('Setting up your trial...');
@@ -141,6 +98,7 @@ export function LoginForm() {
         setLoading(false);
         setStatus('');
       }
+      // La redirection est gérée automatiquement par le useEffect
     } catch {
       setError('An unexpected error occurred');
       setLoading(false);
