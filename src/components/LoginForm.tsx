@@ -6,6 +6,8 @@ import { supabase } from '../lib/supabase';
 import { useAuthContext } from '../contexts/AuthContext';
 
 const DASHBOARD_URL = 'https://pric-eye.vercel.app';
+// URL de votre API Backend
+const BACKEND_API_URL = 'https://priceye.onrender.com';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
@@ -20,14 +22,44 @@ export function LoginForm() {
   useEffect(() => {
     if (user && !authLoading) {
       if (subscription?.status === 'active' || subscription?.status === 'trialing') {
-        if (session?.access_token) {
-          const url = new URL(DASHBOARD_URL);
-          url.searchParams.set('token', session.access_token);
-          url.searchParams.set('refresh_token', session.refresh_token || '');
-          window.location.href = url.toString();
-        } else {
-          navigate('/success');
-        }
+        const syncAndRedirect = async () => {
+          if (session?.access_token) {
+            // Afficher un message de statut pendant la connexion à l'API
+            setStatus('Connecting to application...');
+            setLoading(true);
+
+            try {
+              // Envoi de la requête à votre API pour se connecter
+              // J'utilise un endpoint générique '/api/auth/login', adaptez-le si nécessaire
+              await fetch(`${BACKEND_API_URL}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${session.access_token}`
+                },
+                body: JSON.stringify({
+                  access_token: session.access_token,
+                  refresh_token: session.refresh_token,
+                  user_id: user.id,
+                  email: user.email
+                })
+              });
+            } catch (err) {
+              // On log l'erreur mais on ne bloque pas la redirection pour ne pas coincer l'utilisateur
+              console.error('Error connecting to backend API:', err);
+            }
+
+            // Redirection vers le Dashboard après la tentative de connexion API
+            const url = new URL(DASHBOARD_URL);
+            url.searchParams.set('token', session.access_token);
+            url.searchParams.set('refresh_token', session.refresh_token || '');
+            window.location.href = url.toString();
+          } else {
+            navigate('/success');
+          }
+        };
+
+        syncAndRedirect();
       } else if (subscription?.status === 'none') {
         setLoading(true);
         setStatus('Setting up your trial...');
@@ -94,6 +126,7 @@ export function LoginForm() {
         setLoading(false);
         setStatus('');
       }
+      // La redirection est gérée par le useEffect dès que l'état 'user' change
     } catch {
       setError('An unexpected error occurred');
       setLoading(false);
