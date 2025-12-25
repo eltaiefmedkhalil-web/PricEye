@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Average+Sans&family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(21, 93, 252, 0.5) rgba(2, 6, 24, 0.8);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(2, 6, 24, 0.8);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #155DFC, #00D3F2);
+  border-radius: 4px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Average Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #020618;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-brand-dark/60 backdrop-blur-xl border border-brand-primary/20 rounded-2xl;
+  }
+
+  .glass-card-hover {
+    @apply transition-all duration-300 hover:scale-[1.02] hover:border-brand-accent/50 hover:shadow-[0_0_30px_rgba(0,211,242,0.15)];
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-primary hover:to-brand-accent text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg shadow-brand-primary/20 hover:shadow-brand-accent/30;
+  }
+
+  .btn-secondary {
+    @apply bg-white/5 hover:bg-white/10 text-white font-medium px-6 py-3 rounded-lg border border-brand-primary/30 hover:border-brand-accent/50 transition-all duration-200 flex items-center gap-2;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent bg-clip-text text-transparent;
+  }
+
+  .text-gradient-brand {
+    @apply bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent bg-clip-text text-transparent;
+  }
+
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .brand-ring {
+    @apply relative;
+  }
+
+  .brand-ring::before {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    background: linear-gradient(135deg, #155DFC, #00D3F2);
+    padding: 2px;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .transform-3d {
+    transform-style: preserve-3d;
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 211, 242, 0.3), 0 0 40px rgba(0, 211, 242, 0.1);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(21, 93, 252, 0.3), 0 0 40px rgba(21, 93, 252, 0.1);
+  }
+}
