@@ -5,8 +5,8 @@ import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuthContext } from '../contexts/AuthContext';
 
+// Si votre dashboard est aussi sur Render, remplacez cette URL par 'https://priceye.onrender.com'
 const DASHBOARD_URL = 'https://pric-eye.vercel.app';
-// URL de votre API Backend
 const BACKEND_API_URL = 'https://priceye.onrender.com';
 
 export function LoginForm() {
@@ -24,14 +24,14 @@ export function LoginForm() {
       if (subscription?.status === 'active' || subscription?.status === 'trialing') {
         const syncAndRedirect = async () => {
           if (session?.access_token) {
-            // Afficher un message de statut pendant la connexion à l'API
             setStatus('Connecting to application...');
             setLoading(true);
 
+            let redirectUrl = null;
+
             try {
-              // Envoi de la requête à votre API pour se connecter
-              // J'utilise un endpoint générique '/api/auth/login', adaptez-le si nécessaire
-              await fetch(`${BACKEND_API_URL}/api/auth/login`, {
+              // Appel à votre API Backend
+              const response = await fetch(`${BACKEND_API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -44,16 +44,31 @@ export function LoginForm() {
                   email: user.email
                 })
               });
+
+              // Si l'API renvoie une URL de redirection (ex: { "redirectUrl": "..." }), on l'utilise
+              if (response.ok) {
+                const data = await response.json().catch(() => ({}));
+                if (data.redirectUrl) {
+                  redirectUrl = data.redirectUrl;
+                }
+              }
             } catch (err) {
-              // On log l'erreur mais on ne bloque pas la redirection pour ne pas coincer l'utilisateur
               console.error('Error connecting to backend API:', err);
             }
 
-            // Redirection vers le Dashboard après la tentative de connexion API
-            const url = new URL(DASHBOARD_URL);
-            url.searchParams.set('token', session.access_token);
-            url.searchParams.set('refresh_token', session.refresh_token || '');
-            window.location.href = url.toString();
+            // Redirection : Soit celle fournie par l'API, soit celle construite manuellement
+            if (redirectUrl) {
+              window.location.href = redirectUrl;
+            } else {
+              const url = new URL(DASHBOARD_URL);
+              // On passe 'access_token' explicitement, certains systèmes préfèrent ce nom à 'token'
+              url.searchParams.set('access_token', session.access_token);
+              url.searchParams.set('refresh_token', session.refresh_token || '');
+              // On garde aussi 'token' pour la compatibilité
+              url.searchParams.set('token', session.access_token);
+              
+              window.location.href = url.toString();
+            }
           } else {
             navigate('/success');
           }
@@ -126,7 +141,6 @@ export function LoginForm() {
         setLoading(false);
         setStatus('');
       }
-      // La redirection est gérée par le useEffect dès que l'état 'user' change
     } catch {
       setError('An unexpected error occurred');
       setLoading(false);
