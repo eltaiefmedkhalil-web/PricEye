@@ -5,7 +5,7 @@ import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuthContext } from '../contexts/AuthContext';
 
-// L'adresse du dashboard (Frontend) vers laquelle on redirige
+// L'adresse de votre dashboard (Frontend) vers laquelle on redirige
 const DASHBOARD_URL = 'https://pric-eye.vercel.app';
 
 export function LoginForm() {
@@ -25,11 +25,12 @@ export function LoginForm() {
           setStatus('Redirecting to dashboard...');
           
           // Redirection vers le Dashboard Vercel avec le token en paramètre.
-          // Le Dashboard utilisera ce token pour contacter l'API (Render).
+          // Le Dashboard utilisera ce token pour authentifier les requêtes vers l'API (Render).
           const targetUrl = `${DASHBOARD_URL}/?token=${session.access_token}`;
           
           window.location.href = targetUrl;
         } else {
+          // Si pas de token (cas rare), on redirige vers une page de succès locale
           navigate('/success');
         }
       } else if (subscription?.status === 'none') {
@@ -98,7 +99,7 @@ export function LoginForm() {
         setLoading(false);
         setStatus('');
       }
-      // La redirection est gérée automatiquement par le useEffect
+      // La redirection est gérée automatiquement par le useEffect dès que 'user' est mis à jour
     } catch {
       setError('An unexpected error occurred');
       setLoading(false);
