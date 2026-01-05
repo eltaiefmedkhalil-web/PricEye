@@ -1,12 +1,16 @@
-import { useState } from 'react'; // Ajout de useState
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { LogOut, User, CreditCard, Calendar, ExternalLink, Loader2 } from 'lucide-react'; // Ajout de Loader2
+import { LogOut, User, CreditCard, Calendar, ExternalLink, Loader2 } from 'lucide-react';
 import { useAuthContext } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
+// L'URL de votre application Dashboard
+const DASHBOARD_URL = 'https://pric-eye.vercel.app';
+
 export function Account() {
-  const { user, profile, subscription, signOut, session } = useAuthContext(); // Récupération de la session
-  const [loading, setLoading] = useState(false); // État de chargement
+  // On récupère 'session' pour le token d'accès
+  const { user, profile, subscription, signOut, session } = useAuthContext();
+  const [loading, setLoading] = useState(false);
 
   const getSubscriptionBadge = () => {
     if (!subscription) return { text: 'No Subscription', color: 'bg-slate-500/20 text-slate-400' };
@@ -24,7 +28,15 @@ export function Account() {
     }
   };
 
-  // Nouvelle fonction pour gérer l'abonnement
+  // Fonction pour construire l'URL de connexion automatique avec le token
+  const getDashboardUrl = () => {
+    if (session?.access_token) {
+      return `${DASHBOARD_URL}/?token=${session.access_token}`;
+    }
+    return DASHBOARD_URL;
+  };
+
+  // Fonction pour gérer le démarrage de l'abonnement (Stripe Checkout)
   const handleSubscribe = async () => {
     try {
       setLoading(true);
@@ -60,7 +72,6 @@ export function Account() {
       }
     } catch (error) {
       console.error('Error creating subscription:', error);
-      // Vous pourriez ajouter une gestion d'erreur visuelle ici (ex: toast ou alert)
     } finally {
       setLoading(false);
     }
@@ -165,17 +176,16 @@ export function Account() {
 
               <div className="pt-4 border-t border-white/10">
                 {hasActiveSubscription ? (
+                  // Bouton avec redirection automatique (Token)
                   <a
-                    href="https://pric-eye.vercel.app"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={getDashboardUrl()}
                     className="btn-primary inline-flex items-center gap-2"
                   >
                     <ExternalLink className="w-5 h-5" />
                     Open PricEye App
                   </a>
                 ) : (
-                  // Bouton modifié pour appeler handleSubscribe au lieu du lien vers /signup
+                  // Bouton avec déclenchement du paiement (Stripe)
                   <button 
                     onClick={handleSubscribe}
                     disabled={loading}
