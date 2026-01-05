@@ -3,10 +3,12 @@ import { ArrowRight, PlayCircle, TrendingUp, Bell, Star, ExternalLink } from 'lu
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
 
+// L'URL de votre application Dashboard
 const DASHBOARD_URL = 'https://pric-eye.vercel.app';
 
 export default function Hero() {
-  const { user, loading } = useAuthContext();
+  // On récupère 'session' en plus de 'user' et 'loading'
+  const { user, loading, session } = useAuthContext();
 
   const avatars = [
     'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100',
@@ -14,6 +16,14 @@ export default function Hero() {
     'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100',
     'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100',
   ];
+
+  // Construction dynamique de l'URL avec le token si la session existe
+  const getDashboardUrl = () => {
+    if (session?.access_token) {
+      return `${DASHBOARD_URL}/?token=${session.access_token}`;
+    }
+    return DASHBOARD_URL;
+  };
 
   return (
     <section className="relative min-h-screen pt-24 lg:pt-32 pb-20 overflow-hidden">
@@ -56,7 +66,8 @@ export default function Hero() {
                   Loading...
                 </div>
               ) : user ? (
-                <a href={DASHBOARD_URL} className="btn-primary justify-center">
+                // Utilisation de la fonction getDashboardUrl() pour le lien
+                <a href={getDashboardUrl()} className="btn-primary justify-center">
                   Go to Dashboard
                   <ExternalLink className="w-5 h-5" />
                 </a>
