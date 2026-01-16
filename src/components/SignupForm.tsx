@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, Loader2, Eye, EyeOff, Check } from 'lucide-react';
+import { Mail, Lock, User, Loader2, Eye, EyeOff, Check, ArrowRight, LayoutDashboard, LogOut } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-
-const DASHBOARD_URL = 'https://pric-eye.vercel.app';
+import { useAuthContext } from '../contexts/AuthContext';
 
 export function SignupForm() {
+  const { user, session, signOut } = useAuthContext();
+  const navigate = useNavigate();
+  
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,29 +26,38 @@ export function SignupForm() {
   const isPasswordValid = password.length >= 6;
 
   const createCheckoutSession = async (accessToken: string) => {
-    const response = await fetch(
-      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          mode: 'subscription',
-          trial_period_days: 30,
-          success_url: `${window.location.origin}/success?onboarding=complete`,
-          cancel_url: `${window.location.origin}/signup`,
-        }),
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            mode: 'subscription',
+            trial_period_days: 30,
+            success_url: `${window.location.origin}/success?onboarding=complete`,
+            cancel_url: `${window.location.origin}/signup`,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create checkout session');
       }
-    );
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to create checkout session');
+      const { url } = await response.json();
+      if (url) {
+        window.location.href = url;
+      }
+    } catch (err: any) {
+      setError(err.message);
+      setLoading(false);
     }
-
-    return response.json();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -82,36 +93,93 @@ export function SignupForm() {
 
       if (!accessToken) {
         setStatus('Signing you in...');
-
         const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
 
         if (signInError || !signInData.session) {
-          setError('Account created successfully. Please check your email to confirm your account, then log in.');
+          setError('Account created. Please check your email to confirm, then log in.');
           setLoading(false);
           return;
         }
-
         accessToken = signInData.session.access_token;
       }
 
       setStatus('Setting up your trial...');
+      await createCheckoutSession(accessToken);
 
-      const { url } = await createCheckoutSession(accessToken);
-
-      if (url) {
-        window.location.href = url;
-      } else {
-        setError('Failed to create checkout session');
-        setLoading(false);
-      }
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred');
       setLoading(false);
     }
   };
+
+  // --- NOUVEAU BLOC : GESTION DE L'UTILISATEUR DÉJÀ CONNECTÉ ---
+  if (user) {
+    return (
+      <div className="min-h-screen bg-midnight-900 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/5 via-brand-secondary/3 to-transparent" />
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative z-10 w-full max-w-md"
+        >
+          <div className="glass-card p-8 text-center space-y-6">
+            <div className="mx-auto w-16 h-16 bg-brand-primary/20 rounded-full flex items-center justify-center mb-4">
+              <User className="w-8 h-8 text-brand-primary" />
+            </div>
+            
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-2">Welcome back!</h2>
+              <p className="text-slate-400">
+                You are currently logged in as<br/>
+                <span className="text-white font-medium">{user.email}</span>
+              </p>
+            </div>
+
+            <div className="space-y-3 pt-4">
+              <button
+                onClick={() => session?.access_token && createCheckoutSession(session.access_token)}
+                disabled={loading}
+                className="w-full btn-primary justify-center py-3"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    Complete Subscription
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </>
+                )}
+              </button>
+
+              <Link
+                to="/account"
+                className="w-full py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center transition-all"
+              >
+                <LayoutDashboard className="w-4 h-4 mr-2" />
+                Go to My Account
+              </Link>
+              
+              <button
+                onClick={() => signOut()}
+                className="w-full py-2 text-sm text-slate-500 hover:text-red-400 transition-colors flex items-center justify-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+  // -----------------------------------------------------------
 
   return (
     <div className="min-h-screen bg-midnight-900 flex items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -135,6 +203,7 @@ export function SignupForm() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            {/* ... Le reste de votre formulaire (Champs Nom, Email, Password) ... */}
             <div>
               <label htmlFor="fullName" className="block text-sm font-medium text-slate-300 mb-2">
                 Full name
