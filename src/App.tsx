@@ -54,7 +54,7 @@ function AppRoutes() {
         path="/login"
         element={
           user
-            ? <Navigate to={hasActiveSubscription ? "/success" : "/signup"} replace />
+            ? <Navigate to={hasActiveSubscription ? "/success" : "/account"} replace />
             : <Login />
         }
       />
