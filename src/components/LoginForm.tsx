@@ -6,7 +6,7 @@ import { supabase } from '../lib/supabase';
 import { useAuthContext } from '../contexts/AuthContext';
 
 // L'adresse de votre dashboard (Frontend) vers laquelle on redirige
-const DASHBOARD_URL = 'https://pric-eye.vercel.app';
+const DASHBOARD_URL = 'https://app.priceye-ai.com';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
