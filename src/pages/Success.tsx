@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { CheckCircle, ExternalLink, Loader2 } from 'lucide-react';
 import { useAuthContext } from '../contexts/AuthContext';
 
-const DASHBOARD_URL = 'https://pric-eye.vercel.app';
+const DASHBOARD_URL = 'https://app.priceye-ai.com';
 
 export function Success() {
   const { session, refreshProfile, refreshSubscription } = useAuthContext();
