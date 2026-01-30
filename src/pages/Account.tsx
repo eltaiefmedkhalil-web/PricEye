@@ -5,7 +5,7 @@ import { useAuthContext } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
 // L'URL de votre application Dashboard
-const DASHBOARD_URL = 'https://pric-eye.vercel.app';
+const DASHBOARD_URL = 'https://app.priceye-ai.com';
 
 export function Account() {
   // On récupère 'session' pour le token d'accès
