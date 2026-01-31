@@ -27,14 +27,17 @@ export default function Footer() {
               >
                 <Twitter className="w-4 h-4 text-slate-400 group-hover:text-brand-accent transition-colors" />
               </a>
+              {/* Bouton LinkedIn mis à jour */}
               <a
-                href="#"
+                href="https://www.linkedin.com/company/priceyeai"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 bg-brand-dark/50 hover:bg-brand-primary/20 border border-brand-primary/20 rounded-lg flex items-center justify-center transition-colors group"
               >
                 <Linkedin className="w-4 h-4 text-slate-400 group-hover:text-brand-accent transition-colors" />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/company/priceyeai"
                 className="w-9 h-9 bg-brand-dark/50 hover:bg-brand-primary/20 border border-brand-primary/20 rounded-lg flex items-center justify-center transition-colors group"
               >
                 <Github className="w-4 h-4 text-slate-400 group-hover:text-brand-accent transition-colors" />
@@ -47,7 +50,6 @@ export default function Footer() {
               <h4 className="text-white font-semibold mb-4">{category}</h4>
               <ul className="space-y-3">
                 {links.map((link) => {
-                  // Détection spécifique pour le lien Partners
                   const isPartners = link === 'Partners';
                   const linkUrl = isPartners 
                     ? "https://forms.gle/rmp6UxTFRsdNrMrQ9" 
@@ -57,7 +59,6 @@ export default function Footer() {
                     <li key={link}>
                       <a
                         href={linkUrl}
-                        // Ouvre dans un nouvel onglet si c'est le lien Partners
                         target={isPartners ? "_blank" : undefined}
                         rel={isPartners ? "noopener noreferrer" : undefined}
                         className="text-slate-400 hover:text-white text-sm transition-colors"
