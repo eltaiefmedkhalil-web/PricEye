@@ -9,10 +9,16 @@ export default function Navbar() {
   const { user, loading, signOut } = useAuthContext();
   const navigate = useNavigate();
 
+  // Ajout du lien "Become Partner" dans la configuration
   const navLinks = [
     { name: 'Features', href: '#features' },
     { name: 'Pricing', href: '#pricing' },
     { name: 'For Whom?', href: '#audience' },
+    { 
+      name: 'Become Partner', 
+      href: 'https://forms.gle/rmp6UxTFRsdNrMrQ9',
+      isExternal: true 
+    },
   ];
 
   const handleSignOut = async () => {
@@ -40,6 +46,8 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
+                target={link.isExternal ? "_blank" : undefined}
+                rel={link.isExternal ? "noopener noreferrer" : undefined}
                 className="text-slate-400 hover:text-white transition-colors duration-200 text-sm font-medium"
               >
                 {link.name}
@@ -103,6 +111,8 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
+                  target={link.isExternal ? "_blank" : undefined}
+                  rel={link.isExternal ? "noopener noreferrer" : undefined}
                   onClick={() => setIsOpen(false)}
                   className="block text-slate-400 hover:text-white transition-colors duration-200 py-2"
                 >
