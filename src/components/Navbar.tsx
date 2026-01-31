@@ -15,7 +15,7 @@ export default function Navbar() {
     { name: 'Pricing', href: '#pricing' },
     { name: 'For Whom?', href: '#audience' },
     { 
-      name: 'Become Partner', 
+      name: 'Partnerships', 
       href: 'https://forms.gle/rmp6UxTFRsdNrMrQ9',
       isExternal: true 
     },
