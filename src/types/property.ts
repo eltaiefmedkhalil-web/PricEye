@@ -23,7 +23,6 @@ export interface MockProperty {
   id: string;
   name: string;
   address: string;
-  platform: 'airbnb' | 'smoobu';
 }
 
 export interface PricingTier {
