@@ -6,7 +6,7 @@ const steps = [
     number: '01',
     icon: Link,
     title: 'Connect',
-    description: 'Import properties from Smoobu, Airbnb, or any major PMS in 1 click. No technical setup required.',
+    description: 'Import properties from any major PMS in 1 click. No technical setup required.',
     highlight: '1 click integration',
   },
   {
