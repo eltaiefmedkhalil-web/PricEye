@@ -175,13 +175,6 @@ export default function FeatureGrid() {
                 <p className="text-slate-400 text-sm leading-relaxed mb-4">
                   Prices update automatically across all your connected platforms in real-time.
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {['Airbnb', 'Booking.com', 'VRBO', '+20'].map((platform) => (
-                    <span key={platform} className="px-3 py-1 rounded-full bg-brand-primary/5 border border-brand-primary/15 text-xs text-slate-400">
-                      {platform}
-                    </span>
-                  ))}
-                </div>
               </div>
             </FeatureCard>
 
