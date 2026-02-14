@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CheckCircle, ExternalLink, Loader2 } from 'lucide-react';
 import { useAuthContext } from '../contexts/AuthContext';
@@ -6,10 +7,12 @@ import { useAuthContext } from '../contexts/AuthContext';
 const DASHBOARD_URL = 'https://app.priceye-ai.com';
 
 export function Success() {
-  const { session, refreshProfile, refreshSubscription } = useAuthContext();
+  const { session, subscription, refreshProfile, refreshSubscription } = useAuthContext();
+  const navigate = useNavigate();
   const [countdown, setCountdown] = useState(5);
   const [refreshing, setRefreshing] = useState(true);
   const [redirectUrl, setRedirectUrl] = useState(DASHBOARD_URL);
+  const [verified, setVerified] = useState(false);
 
   useEffect(() => {
     async function refresh() {
@@ -18,6 +21,16 @@ export function Success() {
     }
     refresh();
   }, [refreshProfile, refreshSubscription]);
+
+  useEffect(() => {
+    if (refreshing) return;
+    const status = subscription?.status;
+    if (status === 'active' || status === 'trialing') {
+      setVerified(true);
+    } else {
+      navigate('/account', { replace: true });
+    }
+  }, [refreshing, subscription, navigate]);
 
   useEffect(() => {
     if (session?.access_token) {
@@ -29,7 +42,7 @@ export function Success() {
   }, [session]);
 
   useEffect(() => {
-    if (refreshing) return;
+    if (refreshing || !verified) return;
 
     const timer = setInterval(() => {
       setCountdown((prev) => {
@@ -43,7 +56,7 @@ export function Success() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [refreshing, redirectUrl]);
+  }, [refreshing, verified, redirectUrl]);
 
   return (
     <div className="min-h-screen bg-midnight-900 flex items-center justify-center px-4">

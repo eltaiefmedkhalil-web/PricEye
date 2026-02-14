@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, Loader2, Eye, EyeOff, Check, ArrowRight, LayoutDashboard, LogOut } from 'lucide-react';
+import { Mail, Lock, User, Loader2, Eye, EyeOff, Check, ArrowRight, LogOut } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuthContext } from '../contexts/AuthContext';
 
@@ -152,20 +152,18 @@ export function SignupForm() {
                   </>
                 ) : (
                   <>
-                    Complete Subscription
+                    Start Free Trial
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </>
                 )}
               </button>
 
-              <Link
-                to="/account"
-                className="w-full py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center transition-all"
-              >
-                <LayoutDashboard className="w-4 h-4 mr-2" />
-                Go to My Account
-              </Link>
-              
+              {error && (
+                <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm text-center">
+                  {error}
+                </div>
+              )}
+
               <button
                 onClick={() => signOut()}
                 className="w-full py-2 text-sm text-slate-500 hover:text-red-400 transition-colors flex items-center justify-center gap-2"

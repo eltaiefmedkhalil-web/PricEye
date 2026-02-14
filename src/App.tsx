@@ -37,7 +37,7 @@ function LandingPage() {
 function AppRoutes() {
   const { user, loading, subscription } = useAuthContext();
 
-  if (loading) {
+  if (loading || (user && subscription === null)) {
     return (
       <div className="min-h-screen bg-midnight-900 flex items-center justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-brand-accent"></div>
@@ -68,10 +68,19 @@ function AppRoutes() {
       />
       <Route
         path="/forgot-password"
-        element={user ? <Navigate to="/success" replace /> : <ForgotPassword />}
+        element={user ? <Navigate to={hasActiveSubscription ? "/success" : "/account"} replace /> : <ForgotPassword />}
       />
       <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/success" element={user ? <Success /> : <Navigate to="/login" replace />} />
+      <Route
+        path="/success"
+        element={
+          !user
+            ? <Navigate to="/login" replace />
+            : !hasActiveSubscription
+              ? <Navigate to="/account" replace />
+              : <Success />
+        }
+      />
       <Route path="/account" element={user ? <Account /> : <Navigate to="/login" replace />} />
     </Routes>
   );

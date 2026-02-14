@@ -1,12 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import { useAuthContext } from '../contexts/AuthContext';
-
-// L'adresse de votre dashboard (Frontend) vers laquelle on redirige
-const DASHBOARD_URL = 'https://app.priceye-ai.com';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
@@ -14,79 +10,11 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [status, setStatus] = useState<string>('');
-  const navigate = useNavigate();
-  const { user, session, subscription, loading: authLoading } = useAuthContext();
-
-  useEffect(() => {
-    if (user && !authLoading) {
-      if (subscription?.status === 'active' || subscription?.status === 'trialing') {
-        if (session?.access_token) {
-          setStatus('Redirecting to dashboard...');
-          
-          // Redirection vers le Dashboard Vercel avec le token en paramètre.
-          // Le Dashboard utilisera ce token pour authentifier les requêtes vers l'API (Render).
-          const targetUrl = `${DASHBOARD_URL}/?token=${session.access_token}`;
-          
-          window.location.href = targetUrl;
-        } else {
-          // Si pas de token (cas rare), on redirige vers une page de succès locale
-          navigate('/success');
-        }
-      } else if (subscription?.status === 'none') {
-        setLoading(true);
-        setStatus('Setting up your trial...');
-        createCheckoutSession().catch(err => {
-          setError(err.message);
-          setLoading(false);
-        });
-      }
-    }
-  }, [user, session, subscription, authLoading, navigate]);
-
-  const createCheckoutSession = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-
-    if (!session) {
-      throw new Error('No session found');
-    }
-
-    const response = await fetch(
-      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.access_token}`,
-        },
-        body: JSON.stringify({
-          mode: 'subscription',
-          trial_period_days: 30,
-          success_url: `${window.location.origin}/success?onboarding=complete`,
-          cancel_url: `${window.location.origin}/login`,
-        }),
-      }
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Failed to create checkout session');
-    }
-
-    const { url } = await response.json();
-
-    if (url) {
-      window.location.href = url;
-    } else {
-      throw new Error('No checkout URL returned');
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setStatus('Signing in...');
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
@@ -97,13 +25,10 @@ export function LoginForm() {
       if (error) {
         setError(error.message);
         setLoading(false);
-        setStatus('');
       }
-      // La redirection est gérée automatiquement par le useEffect dès que 'user' est mis à jour
     } catch {
       setError('An unexpected error occurred');
       setLoading(false);
-      setStatus('');
     }
   };
 
@@ -206,7 +131,7 @@ export function LoginForm() {
               {loading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  {status || 'Signing in...'}
+                  Signing in...
                 </>
               ) : (
                 'Sign in'
