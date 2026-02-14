@@ -3,12 +3,11 @@ import { motion } from 'framer-motion';
 import { LogOut, User, CreditCard, Calendar, ExternalLink, Loader2 } from 'lucide-react';
 import { useAuthContext } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
-// L'URL de votre application Dashboard
 const DASHBOARD_URL = 'https://app.priceye-ai.com';
 
 export function Account() {
-  // On récupère 'session' pour le token d'accès
   const { user, profile, subscription, signOut, session } = useAuthContext();
   const [loading, setLoading] = useState(false);
 
@@ -28,12 +27,18 @@ export function Account() {
     }
   };
 
-  // Fonction pour construire l'URL de connexion automatique avec le token
-  const getDashboardUrl = () => {
-    if (session?.access_token) {
-      return `${DASHBOARD_URL}/?token=${session.access_token}`;
+  const handleOpenDashboard = async () => {
+    const { data: { session: freshSession } } = await supabase.auth.getSession();
+    const token = freshSession?.access_token;
+    const refreshToken = freshSession?.refresh_token || '';
+    if (token) {
+      const url = new URL(DASHBOARD_URL);
+      url.searchParams.set('token', token);
+      url.searchParams.set('refresh_token', refreshToken);
+      window.location.href = url.toString();
+    } else {
+      window.location.href = DASHBOARD_URL;
     }
-    return DASHBOARD_URL;
   };
 
   // Fonction pour gérer le démarrage de l'abonnement (Stripe Checkout)
@@ -176,14 +181,13 @@ export function Account() {
 
               <div className="pt-4 border-t border-white/10">
                 {hasActiveSubscription ? (
-                  // Bouton avec redirection automatique (Token)
-                  <a
-                    href={getDashboardUrl()}
+                  <button
+                    onClick={handleOpenDashboard}
                     className="btn-primary inline-flex items-center gap-2"
                   >
                     <ExternalLink className="w-5 h-5" />
                     Open PricEye App
-                  </a>
+                  </button>
                 ) : (
                   // Bouton avec déclenchement du paiement (Stripe)
                   <button 
