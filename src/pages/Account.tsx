@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { LogOut, User, CreditCard, Calendar, ExternalLink, Loader2, Headphones } from 'lucide-react';
+import { LogOut, User, CreditCard, Calendar, ExternalLink, Loader2 } from 'lucide-react';
 import { useAuthContext } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
@@ -206,28 +206,6 @@ export function Account() {
                   </button>
                 )}
               </div>
-            </div>
-          </div>
-
-          <div className="glass-card p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-brand-accent/20 flex items-center justify-center">
-                <Headphones className="w-6 h-6 text-brand-accent" />
-              </div>
-              <div>
-                <h2 className="text-xl font-semibold text-white">Support</h2>
-                <p className="text-sm text-slate-400">Get help from our support team</p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <p className="text-slate-400 text-sm">
-                Have questions or need help? Create or view your support tickets to get in touch with our team.
-              </p>
-              <Link to="/support" className="btn-primary inline-flex items-center gap-2">
-                <Headphones className="w-5 h-5" />
-                Go to Support
-              </Link>
             </div>
           </div>
         </motion.div>

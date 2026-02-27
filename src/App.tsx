@@ -15,8 +15,6 @@ import { Success } from './pages/Success';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword';
 import { Account } from './pages/Account';
-import SupportPage from './pages/Support';
-import NewTicket from './pages/NewTicket';
 
 function LandingPage() {
   return (
@@ -84,8 +82,6 @@ function AppRoutes() {
         }
       />
       <Route path="/account" element={user ? <Account /> : <Navigate to="/login" replace />} />
-      <Route path="/support" element={user ? <SupportPage /> : <Navigate to="/login" replace />} />
-      <Route path="/support/new" element={user ? <NewTicket /> : <Navigate to="/login" replace />} />
     </Routes>
   );
 }

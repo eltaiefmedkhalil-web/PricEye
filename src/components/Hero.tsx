@@ -77,10 +77,10 @@ export default function Hero() {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               )}
-              <a href="https://app.storylane.io/share/gzv1szkg4y0l" target="_blank" rel="noopener noreferrer" className="btn-secondary justify-center">
+              <button className="btn-secondary justify-center">
                 <PlayCircle className="w-5 h-5" />
                 Watch Demo
-              </a>
+              </button>
             </div>
 
             <div className="flex items-center gap-3 justify-center lg:justify-start">
