@@ -6,7 +6,10 @@ import Timeline from './components/Timeline';
 import Audience from './components/Audience';
 import Support from './components/Support';
 import PricingSection from './components/Pricing';
+import FAQ from './components/FAQ';
 import Footer from './components/Footer';
+import SEO from './components/SEO';
+import JsonLd from './components/JsonLd';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuthContext } from './contexts/AuthContext';
 import { Login } from './pages/Login';
@@ -19,6 +22,12 @@ import { Account } from './pages/Account';
 function LandingPage() {
   return (
     <div className="min-h-screen bg-midnight-900 text-white overflow-x-hidden">
+      <SEO
+        title="AI Dynamic Pricing for Airbnb & Short-Term Rentals"
+        description="Maximize your Airbnb revenue by +20% with PricEye AI. Transparent dynamic pricing that analyzes 100+ factors for short-term rental hosts and property managers."
+        canonical="/"
+      />
+      <JsonLd />
       <Navbar />
       <main>
         <Hero />
@@ -28,6 +37,7 @@ function LandingPage() {
         <Audience />
         <Support />
         <PricingSection />
+        <FAQ />
       </main>
       <Footer />
     </div>

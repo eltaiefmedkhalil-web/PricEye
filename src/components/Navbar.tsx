@@ -14,10 +14,11 @@ export default function Navbar() {
     { name: 'Features', href: '#features' },
     { name: 'Pricing', href: '#pricing' },
     { name: 'For Whom?', href: '#audience' },
-    { 
-      name: 'Partnerships', 
+    { name: 'FAQ', href: '#faq' },
+    {
+      name: 'Partnerships',
       href: 'https://forms.gle/rmp6UxTFRsdNrMrQ9',
-      isExternal: true 
+      isExternal: true
     },
   ];
 
@@ -37,7 +38,7 @@ export default function Navbar() {
       <div className="section-container">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link to="/" className="flex items-center gap-2">
-            <img src="/p_priceeye_vecto_(1).png" alt="PricEye" className="w-9 h-12" />
+            <img src="/p_priceeye_vecto_(1).png" alt="PricEye AI dynamic pricing logo" width={36} height={48} className="w-9 h-12" />
             <span className="text-xl font-bold text-white font-heading">PricEye</span>
           </Link>
 

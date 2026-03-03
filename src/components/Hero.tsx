@@ -50,8 +50,8 @@ export default function Hero() {
             </motion.div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-              Democratize dynamic pricing with{' '}
-              <span className="text-gradient">high-quality AI.</span>
+              PricEye AI: transparent dynamic pricing for{' '}
+              <span className="text-gradient">short-term rentals.</span>
             </h1>
 
             <p className="text-lg text-slate-400 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
@@ -89,7 +89,10 @@ export default function Hero() {
                   <img
                     key={i}
                     src={avatar}
-                    alt="User"
+                    alt={`PricEye satisfied user ${i + 1}`}
+                    loading="lazy"
+                    width={40}
+                    height={40}
                     className="w-10 h-10 rounded-full border-2 border-midnight-900 object-cover"
                   />
                 ))}

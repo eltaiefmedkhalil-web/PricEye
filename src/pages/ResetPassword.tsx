@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Lock, Loader2, Eye, EyeOff, Check, AlertCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import SEO from '../components/SEO';
 
 export function ResetPassword() {
   const [password, setPassword] = useState('');
@@ -95,8 +96,9 @@ export function ResetPassword() {
 
   return (
     <div className="min-h-screen bg-midnight-900 flex items-center justify-center px-4">
+      <SEO title="Set New Password" description="Set a new password for your PricEye account." canonical="/reset-password" noindex />
       <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/5 via-brand-secondary/3 to-transparent" />
-      
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -94,7 +94,10 @@ export default function GlassBox() {
               <div className="flex gap-4 mb-4">
                 <img
                   src="https://images.pexels.com/photos/1268871/pexels-photo-1268871.jpeg?auto=compress&cs=tinysrgb&w=200"
-                  alt="Villa Sunset"
+                  alt="Villa Sunset short-term rental property managed with PricEye dynamic pricing"
+                  loading="lazy"
+                  width={80}
+                  height={80}
                   className="w-20 h-20 rounded-xl object-cover"
                 />
                 <div className="flex-1">

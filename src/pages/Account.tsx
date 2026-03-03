@@ -4,6 +4,7 @@ import { LogOut, User, CreditCard, Calendar, ExternalLink, Loader2 } from 'lucid
 import { useAuthContext } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import SEO from '../components/SEO';
 
 const DASHBOARD_URL = 'https://app.priceye-ai.com';
 
@@ -87,6 +88,7 @@ export function Account() {
 
   return (
     <div className="min-h-screen bg-midnight-900 text-white">
+      <SEO title="Account Settings" description="Manage your PricEye account and subscription settings." canonical="/account" noindex />
       <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/5 via-brand-secondary/3 to-transparent" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-primary/10 rounded-full blur-[128px] opacity-30" />
 

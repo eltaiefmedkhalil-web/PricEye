@@ -74,7 +74,10 @@ export default function Support() {
                 <div className="relative">
                   <img
                     src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100"
-                    alt="Support agent"
+                    alt="PricEye customer success agent providing rental pricing support"
+                    loading="lazy"
+                    width={48}
+                    height={48}
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <span className="absolute bottom-0 right-0 w-3 h-3 bg-brand-accent rounded-full border-2 border-brand-dark" />

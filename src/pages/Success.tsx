@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { CheckCircle, ExternalLink, Loader2 } from 'lucide-react';
 import { useAuthContext } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
+import SEO from '../components/SEO';
 
 const DASHBOARD_URL = 'https://app.priceye-ai.com';
 
@@ -66,6 +67,7 @@ export function Success() {
 
   return (
     <div className="min-h-screen bg-midnight-900 flex items-center justify-center px-4">
+      <SEO title="Welcome to PricEye" description="Your PricEye account is ready. Start optimizing your rental pricing." canonical="/success" noindex />
       <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/5 via-brand-secondary/3 to-transparent" />
       <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-brand-accent/10 rounded-full blur-[128px] opacity-50" />
 
