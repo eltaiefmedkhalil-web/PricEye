@@ -10,15 +10,16 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   // Ajout du lien "Become Partner" dans la configuration
-  const navLinks = [
+  const navLinks: { name: string; href: string; isExternal?: boolean; isRoute?: boolean }[] = [
     { name: 'Features', href: '#features' },
     { name: 'Pricing', href: '#pricing' },
     { name: 'For Whom?', href: '#audience' },
     { name: 'FAQ', href: '#faq' },
+    { name: 'Blog', href: '/blog', isRoute: true },
     {
       name: 'Partnerships',
       href: 'https://forms.gle/rmp6UxTFRsdNrMrQ9',
-      isExternal: true
+      isExternal: true,
     },
   ];
 
@@ -43,17 +44,27 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                target={link.isExternal ? "_blank" : undefined}
-                rel={link.isExternal ? "noopener noreferrer" : undefined}
-                className="text-slate-400 hover:text-white transition-colors duration-200 text-sm font-medium"
-              >
-                {link.name}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.isRoute ? (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="text-slate-400 hover:text-white transition-colors duration-200 text-sm font-medium"
+                >
+                  {link.name}
+                </Link>
+              ) : (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target={link.isExternal ? '_blank' : undefined}
+                  rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                  className="text-slate-400 hover:text-white transition-colors duration-200 text-sm font-medium"
+                >
+                  {link.name}
+                </a>
+              )
+            )}
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
@@ -108,18 +119,29 @@ export default function Navbar() {
             className="lg:hidden bg-brand-darkest/95 backdrop-blur-xl border-b border-brand-primary/10"
           >
             <div className="section-container py-4 space-y-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target={link.isExternal ? "_blank" : undefined}
-                  rel={link.isExternal ? "noopener noreferrer" : undefined}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-slate-400 hover:text-white transition-colors duration-200 py-2"
-                >
-                  {link.name}
-                </a>
-              ))}
+              {navLinks.map((link) =>
+                link.isRoute ? (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="block text-slate-400 hover:text-white transition-colors duration-200 py-2"
+                  >
+                    {link.name}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    target={link.isExternal ? '_blank' : undefined}
+                    rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                    onClick={() => setIsOpen(false)}
+                    className="block text-slate-400 hover:text-white transition-colors duration-200 py-2"
+                  >
+                    {link.name}
+                  </a>
+                )
+              )}
               {loading ? (
                 <div className="w-full h-12 bg-white/5 rounded-xl animate-pulse" />
               ) : user ? (

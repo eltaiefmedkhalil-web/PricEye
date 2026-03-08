@@ -18,6 +18,7 @@ const footerLinks: Record<string, FooterLink[]> = {
   ],
   Resources: [
     { label: 'Who is PricEye For?', href: '#audience' },
+    { label: 'Blog - Pricing & Revenue Insights', href: '/blog' },
   ],
   Legal: [
     { label: 'Privacy Policy', href: '#' },

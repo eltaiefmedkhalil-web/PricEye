@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Allow: /signup
 Allow: /login
+Allow: /blog
+Allow: /blog/
 Disallow: /account
 Disallow: /success
 Disallow: /reset-password
@@ -11,6 +13,8 @@ User-agent: Googlebot
 Allow: /
 Allow: /signup
 Allow: /login
+Allow: /blog
+Allow: /blog/
 Disallow: /account
 Disallow: /success
 Disallow: /reset-password

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import FeatureGrid from './components/FeatureGrid';
@@ -17,6 +18,17 @@ import { Success } from './pages/Success';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword';
 import { Account } from './pages/Account';
+
+const BlogIndex = lazy(() => import('./pages/BlogIndex'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
+
+function LazyFallback() {
+  return (
+    <div className="min-h-screen bg-midnight-900 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-brand-accent" />
+    </div>
+  );
+}
 
 function LandingPage() {
   return (
@@ -90,6 +102,8 @@ function AppRoutes() {
         }
       />
       <Route path="/account" element={user ? <Account /> : <Navigate to="/login" replace />} />
+      <Route path="/blog" element={<Suspense fallback={<LazyFallback />}><BlogIndex /></Suspense>} />
+      <Route path="/blog/:slug" element={<Suspense fallback={<LazyFallback />}><BlogPost /></Suspense>} />
     </Routes>
   );
 }
