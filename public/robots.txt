@@ -1,5 +1,16 @@
 User-agent: *
 Allow: /
+Allow: /signup
+Allow: /login
+Disallow: /account
+Disallow: /success
+Disallow: /reset-password
+Disallow: /forgot-password
+
+User-agent: Googlebot
+Allow: /
+Allow: /signup
+Allow: /login
 Disallow: /account
 Disallow: /success
 Disallow: /reset-password
