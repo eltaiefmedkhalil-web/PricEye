@@ -11,7 +11,52 @@ import SEO from '../../components/SEO';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import LeadCaptureModal from '../../components/LeadCaptureModal';
+import RelatedTools from '../../components/RelatedTools';
 import { useLeadCapture } from '../../hooks/useLeadCapture';
+
+const SITE_URL = 'https://priceye-ai.com';
+
+const houseRulesJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      '@id': `${SITE_URL}/tools/house-rules/#app`,
+      name: 'AI House Rules Generator for Airbnb',
+      url: `${SITE_URL}/tools/house-rules`,
+      description: 'Generate professional, guest-ready house rules for your Airbnb, villa, or vacation rental. Customize for your property type, amenities, and policies.',
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'Web',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+      publisher: { '@id': `${SITE_URL}/#organization` },
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${SITE_URL}/tools/house-rules/#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+        { '@type': 'ListItem', position: 2, name: 'Free Tools', item: `${SITE_URL}/tools` },
+        { '@type': 'ListItem', position: 3, name: 'House Rules Generator', item: `${SITE_URL}/tools/house-rules` },
+      ],
+    },
+    {
+      '@type': 'HowTo',
+      name: 'How to Generate Professional Airbnb House Rules',
+      description: 'Create customized, guest-ready house rules for your short-term rental property in 30 seconds.',
+      step: [
+        { '@type': 'HowToStep', position: 1, name: 'Select property type', text: 'Choose between apartment, house, or villa.' },
+        { '@type': 'HowToStep', position: 2, name: 'Select amenities', text: 'Pick the amenities your property offers such as pool, gym, parking, or Wi-Fi.' },
+        { '@type': 'HowToStep', position: 3, name: 'Choose rules', text: 'Select policies like no smoking, quiet hours, or check-in times.' },
+        { '@type': 'HowToStep', position: 4, name: 'Generate and download', text: 'Click Generate to create your professional house rules document, then copy or download.' },
+      ],
+    },
+  ],
+};
 
 const propertyTypes = [
   { id: 'apartment', label: 'Apartment', icon: Building2 },
@@ -259,6 +304,8 @@ export default function HouseRulesGenerator() {
         title="Free AI House Rules Generator for Airbnb | Professional Property Rules"
         description="Generate professional, guest-ready house rules for your Airbnb, villa, or vacation rental. Customize for your property type, amenities, and policies. Free instant download."
         canonical="/tools/house-rules"
+        keywords="airbnb house rules generator, vacation rental house rules, airbnb rules template, house rules for guests, rental property rules, airbnb check-in rules, guest rules template, professional house rules, short-term rental rules"
+        jsonLd={houseRulesJsonLd}
       />
       <Navbar />
 
@@ -458,6 +505,7 @@ export default function HouseRulesGenerator() {
         </div>
       </div>
 
+      <RelatedTools currentSlug="house-rules" />
       <Footer />
     </div>
   );

@@ -19,6 +19,10 @@ const footerLinks: Record<string, FooterLink[]> = {
   Resources: [
     { label: 'Who is PricEye For?', href: '#audience' },
     { label: 'Blog - Pricing & Revenue Insights', href: '/blog' },
+    { label: 'Free Airbnb Host Tools', href: '/tools' },
+    { label: 'Revenue Lift Calculator', href: '/tools/revenue-calculator' },
+    { label: 'AI House Rules Generator', href: '/tools/house-rules' },
+    { label: 'Cleaning Fee Optimizer', href: '/tools/cleaning-fee' },
   ],
   Legal: [
     { label: 'Privacy Policy', href: '#' },

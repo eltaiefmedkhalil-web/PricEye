@@ -5,6 +5,57 @@ import SEO from '../components/SEO';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
+const SITE_URL = 'https://priceye-ai.com';
+
+const toolsHubJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      '@id': `${SITE_URL}/tools`,
+      url: `${SITE_URL}/tools`,
+      name: 'Free Airbnb Host Tools - Revenue Calculator, House Rules Generator & Cleaning Fee Optimizer',
+      description: 'Free interactive tools for Airbnb hosts and property managers. Calculate your revenue lift, generate professional house rules, and optimize cleaning fees.',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      breadcrumb: { '@id': `${SITE_URL}/tools/#breadcrumb` },
+      publisher: { '@id': `${SITE_URL}/#organization` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${SITE_URL}/tools/#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+        { '@type': 'ListItem', position: 2, name: 'Free Tools', item: `${SITE_URL}/tools` },
+      ],
+    },
+    {
+      '@type': 'ItemList',
+      name: 'PricEye Free Tools for Airbnb Hosts',
+      numberOfItems: 3,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Airbnb Revenue Lift Calculator',
+          url: `${SITE_URL}/tools/revenue-calculator`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'AI House Rules Generator',
+          url: `${SITE_URL}/tools/house-rules`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: 'Cleaning Fee Optimizer',
+          url: `${SITE_URL}/tools/cleaning-fee`,
+        },
+      ],
+    },
+  ],
+};
+
 const tools = [
   {
     icon: Calculator,
@@ -59,8 +110,10 @@ export default function ToolsHub() {
     <div className="min-h-screen bg-midnight-900 text-white">
       <SEO
         title="Free Airbnb Host Tools | Revenue Calculator, House Rules & Cleaning Fees"
-        description="Free interactive tools for Airbnb hosts and property managers. Calculate your revenue lift, generate professional house rules, and optimize cleaning fees."
+        description="Free interactive tools for Airbnb hosts and property managers. Calculate your revenue lift with dynamic pricing, generate professional house rules, and optimize cleaning fees."
         canonical="/tools"
+        keywords="airbnb tools, airbnb revenue calculator, house rules generator, cleaning fee optimizer, vacation rental tools, airbnb host tools, short-term rental calculator, property management tools, dynamic pricing tools"
+        jsonLd={toolsHubJsonLd}
       />
       <Navbar />
 

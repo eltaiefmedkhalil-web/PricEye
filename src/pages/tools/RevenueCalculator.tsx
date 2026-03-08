@@ -6,7 +6,52 @@ import SEO from '../../components/SEO';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import LeadCaptureModal from '../../components/LeadCaptureModal';
+import RelatedTools from '../../components/RelatedTools';
 import { useLeadCapture } from '../../hooks/useLeadCapture';
+
+const SITE_URL = 'https://priceye-ai.com';
+
+const revenueCalcJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      '@id': `${SITE_URL}/tools/revenue-calculator/#app`,
+      name: 'Airbnb Revenue Lift Calculator',
+      url: `${SITE_URL}/tools/revenue-calculator`,
+      description: 'Calculate how much more revenue you could earn from your Airbnb or vacation rental properties with AI-powered dynamic pricing. Free instant results.',
+      applicationCategory: 'FinanceApplication',
+      operatingSystem: 'Web',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+      publisher: { '@id': `${SITE_URL}/#organization` },
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${SITE_URL}/tools/revenue-calculator/#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+        { '@type': 'ListItem', position: 2, name: 'Free Tools', item: `${SITE_URL}/tools` },
+        { '@type': 'ListItem', position: 3, name: 'Revenue Calculator', item: `${SITE_URL}/tools/revenue-calculator` },
+      ],
+    },
+    {
+      '@type': 'HowTo',
+      name: 'How to Calculate Your Airbnb Revenue Lift',
+      description: 'Use the PricEye revenue calculator to estimate how much more you could earn with dynamic pricing.',
+      step: [
+        { '@type': 'HowToStep', position: 1, name: 'Enter listings', text: 'Enter your total number of rental listings.' },
+        { '@type': 'HowToStep', position: 2, name: 'Set nightly rate', text: 'Set your average nightly rate in dollars.' },
+        { '@type': 'HowToStep', position: 3, name: 'Set occupancy', text: 'Enter your current occupancy rate as a percentage.' },
+        { '@type': 'HowToStep', position: 4, name: 'View results', text: 'Click Calculate to see your projected revenue with AI-powered dynamic pricing.' },
+      ],
+    },
+  ],
+};
 
 function RevenueBar({ label, value, maxValue, color, delay }: { label: string; value: number; maxValue: number; color: string; delay: number }) {
   const pct = maxValue > 0 ? (value / maxValue) * 100 : 0;
@@ -92,8 +137,10 @@ export default function RevenueCalculator() {
     <div className="min-h-screen bg-midnight-900 text-white">
       <SEO
         title="Free Airbnb Revenue Calculator | See Your Revenue Lift with Dynamic Pricing"
-        description="Calculate how much more revenue you could earn from your Airbnb or vacation rental properties with AI-powered dynamic pricing. Free instant results."
+        description="Calculate how much more revenue you could earn from your Airbnb or vacation rental properties with AI-powered dynamic pricing. Free instant results for hosts."
         canonical="/tools/revenue-calculator"
+        keywords="airbnb revenue calculator, vacation rental revenue estimator, dynamic pricing calculator, airbnb income calculator, rental revenue lift, short-term rental ROI, airbnb profit calculator, property revenue forecast"
+        jsonLd={revenueCalcJsonLd}
       />
       <Navbar />
 
@@ -328,6 +375,7 @@ export default function RevenueCalculator() {
         </div>
       </div>
 
+      <RelatedTools currentSlug="revenue-calculator" />
       <Footer />
     </div>
   );

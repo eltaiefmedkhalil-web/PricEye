@@ -4,6 +4,11 @@ Allow: /signup
 Allow: /login
 Allow: /blog
 Allow: /blog/
+Allow: /tools
+Allow: /tools/
+Allow: /tools/revenue-calculator
+Allow: /tools/house-rules
+Allow: /tools/cleaning-fee
 Disallow: /account
 Disallow: /success
 Disallow: /reset-password
@@ -15,6 +20,11 @@ Allow: /signup
 Allow: /login
 Allow: /blog
 Allow: /blog/
+Allow: /tools
+Allow: /tools/
+Allow: /tools/revenue-calculator
+Allow: /tools/house-rules
+Allow: /tools/cleaning-fee
 Disallow: /account
 Disallow: /success
 Disallow: /reset-password

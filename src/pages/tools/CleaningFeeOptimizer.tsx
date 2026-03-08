@@ -9,7 +9,52 @@ import SEO from '../../components/SEO';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import LeadCaptureModal from '../../components/LeadCaptureModal';
+import RelatedTools from '../../components/RelatedTools';
 import { useLeadCapture } from '../../hooks/useLeadCapture';
+
+const SITE_URL = 'https://priceye-ai.com';
+
+const cleaningFeeJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      '@id': `${SITE_URL}/tools/cleaning-fee/#app`,
+      name: 'Airbnb Cleaning Fee Optimizer',
+      url: `${SITE_URL}/tools/cleaning-fee`,
+      description: 'Compare your Airbnb cleaning fee against industry benchmarks for 15+ cities. Find out if you are overcharging or undercharging guests.',
+      applicationCategory: 'FinanceApplication',
+      operatingSystem: 'Web',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+      publisher: { '@id': `${SITE_URL}/#organization` },
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${SITE_URL}/tools/cleaning-fee/#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+        { '@type': 'ListItem', position: 2, name: 'Free Tools', item: `${SITE_URL}/tools` },
+        { '@type': 'ListItem', position: 3, name: 'Cleaning Fee Optimizer', item: `${SITE_URL}/tools/cleaning-fee` },
+      ],
+    },
+    {
+      '@type': 'HowTo',
+      name: 'How to Optimize Your Airbnb Cleaning Fee',
+      description: 'Use market benchmarks to determine if your cleaning fee is helping or hurting your bookings.',
+      step: [
+        { '@type': 'HowToStep', position: 1, name: 'Select your city', text: 'Choose your rental market from 15+ supported cities worldwide.' },
+        { '@type': 'HowToStep', position: 2, name: 'Enter property details', text: 'Set the number of bedrooms and your current cleaning fee.' },
+        { '@type': 'HowToStep', position: 3, name: 'Add laundry costs', text: 'Enter your local per-load laundry cost for more accurate benchmarking.' },
+        { '@type': 'HowToStep', position: 4, name: 'View analysis', text: 'Get an instant analysis showing if your fee is too high, too low, or in the optimal range.' },
+      ],
+    },
+  ],
+};
 
 interface CityBenchmark {
   label: string;
@@ -161,8 +206,10 @@ export default function CleaningFeeOptimizer() {
     <div className="min-h-screen bg-midnight-900 text-white">
       <SEO
         title="Free Cleaning Fee Optimizer for Airbnb | Market Benchmark Comparison"
-        description="Compare your Airbnb cleaning fee against industry benchmarks. Find out if you are overcharging or undercharging guests. Free analysis for 15+ cities."
+        description="Compare your Airbnb cleaning fee against industry benchmarks for 15+ cities worldwide. Find out if you are overcharging or undercharging guests. Free instant analysis."
         canonical="/tools/cleaning-fee"
+        keywords="airbnb cleaning fee, cleaning fee calculator, airbnb cleaning cost, vacation rental cleaning fee, cleaning fee benchmark, airbnb cleaning price, short-term rental cleaning fees, cleaning fee optimizer, airbnb fees comparison"
+        jsonLd={cleaningFeeJsonLd}
       />
       <Navbar />
 
@@ -461,6 +508,7 @@ export default function CleaningFeeOptimizer() {
         </div>
       </div>
 
+      <RelatedTools currentSlug="cleaning-fee" />
       <Footer />
     </div>
   );
