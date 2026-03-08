@@ -10,6 +10,16 @@ const post: BlogPost = {
   image: 'https://images.pexels.com/photos/7567443/pexels-photo-7567443.jpeg?auto=compress&cs=tinysrgb&w=1200',
   imageAlt: 'AI data analytics dashboard showing market factors for dynamic rental pricing',
   author: 'PricEye Team',
+  keywords: [
+    'AI dynamic pricing algorithm',
+    'transparent pricing AI',
+    'rental pricing factors',
+    'airbnb pricing intelligence',
+    'market-based pricing',
+    'demand-based pricing',
+    'competitive pricing analysis',
+    'AI revenue management',
+  ],
   relatedSlugs: [
     'why-static-pricing-costing-airbnb-revenue-2026',
     'optimize-airbnb-listing-maximum-visibility-2026',

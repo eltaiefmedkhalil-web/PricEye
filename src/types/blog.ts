@@ -17,4 +17,5 @@ export interface BlogPost {
   headings: BlogHeading[];
   content: string;
   relatedSlugs: string[];
+  keywords?: string[];
 }

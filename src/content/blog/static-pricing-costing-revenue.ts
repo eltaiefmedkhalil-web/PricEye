@@ -10,6 +10,16 @@ const post: BlogPost = {
   image: 'https://images.pexels.com/photos/7821486/pexels-photo-7821486.jpeg?auto=compress&cs=tinysrgb&w=1200',
   imageAlt: 'Airbnb host reviewing pricing data on laptop showing revenue loss from static pricing',
   author: 'PricEye Team',
+  keywords: [
+    'airbnb static pricing problems',
+    'vacation rental revenue loss',
+    'dynamic pricing vs static pricing',
+    'airbnb pricing strategy 2026',
+    'short-term rental pricing mistakes',
+    'maximize airbnb revenue',
+    'rental pricing optimization',
+    'airbnb dynamic pricing benefits',
+  ],
   relatedSlugs: [
     'priceye-ai-analyzes-100-market-factors',
     'scale-short-term-rental-business-1-to-10-properties',

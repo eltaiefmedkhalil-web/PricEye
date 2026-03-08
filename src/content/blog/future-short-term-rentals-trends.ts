@@ -10,6 +10,16 @@ const post: BlogPost = {
   image: 'https://images.pexels.com/photos/2351649/pexels-photo-2351649.jpeg?auto=compress&cs=tinysrgb&w=1200',
   imageAlt: 'Modern vacation rental with smart home technology representing future of short-term rentals',
   author: 'PricEye Team',
+  keywords: [
+    'short-term rental trends 2026',
+    'vacation rental industry',
+    'remote work travel',
+    'workation rentals',
+    'AI property management',
+    'sustainable travel rentals',
+    'rental industry regulation',
+    'mid-stay rentals',
+  ],
   relatedSlugs: [
     'scale-short-term-rental-business-1-to-10-properties',
     'why-static-pricing-costing-airbnb-revenue-2026',

@@ -10,6 +10,16 @@ const post: BlogPost = {
   image: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1200',
   imageAlt: 'Row of modern rental properties representing a scaled short-term rental portfolio',
   author: 'PricEye Team',
+  keywords: [
+    'scale rental business',
+    'grow airbnb portfolio',
+    'property management growth',
+    'rental business automation',
+    'multi-property management',
+    'vacation rental portfolio',
+    'rental business systems',
+    'property manager strategy',
+  ],
   relatedSlugs: [
     'future-short-term-rentals-trends-2026',
     'why-static-pricing-costing-airbnb-revenue-2026',

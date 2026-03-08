@@ -97,7 +97,12 @@ export default function BlogPost() {
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
-    image: post.image,
+    image: {
+      '@type': 'ImageObject',
+      url: post.image,
+      width: 1200,
+      height: 630,
+    },
     datePublished: post.date,
     dateModified: post.date,
     author: {
@@ -117,6 +122,35 @@ export default function BlogPost() {
       '@type': 'WebPage',
       '@id': `https://priceye-ai.com/blog/${post.slug}`,
     },
+    wordCount: post.content.split(/\s+/).length,
+    articleSection: post.category,
+    timeRequired: `PT${post.readingTime}M`,
+    keywords: post.keywords?.join(', ') || 'dynamic pricing, Airbnb pricing, short-term rental, vacation rental, revenue management',
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://priceye-ai.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://priceye-ai.com/blog',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.title,
+        item: `https://priceye-ai.com/blog/${post.slug}`,
+      },
+    ],
   };
 
   return (
@@ -130,7 +164,28 @@ export default function BlogPost() {
         image={post.image}
       />
       <Helmet>
+        <meta name="keywords" content={post.keywords?.join(', ') || `${post.category}, airbnb pricing, dynamic pricing, short-term rental, vacation rental revenue, property management`} />
+        <meta name="author" content={post.author} />
+        <meta name="article:published_time" content={post.date} />
+        <meta name="article:modified_time" content={post.date} />
+        <meta name="article:section" content={post.category} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.description} />
+        <meta property="og:url" content={`https://priceye-ai.com/blog/${post.slug}`} />
+        <meta property="og:image" content={post.image} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={post.imageAlt} />
+        <meta property="article:author" content="PricEye" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.description} />
+        <meta name="twitter:image" content={post.image} />
+        <meta name="twitter:image:alt" content={post.imageAlt} />
+        <link rel="canonical" href={`https://priceye-ai.com/blog/${post.slug}`} />
         <script type="application/ld+json">{JSON.stringify(blogPostingSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
       <header className="pt-24 lg:pt-32 pb-8 relative">

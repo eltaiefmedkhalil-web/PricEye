@@ -10,6 +10,16 @@ const post: BlogPost = {
   image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1200',
   imageAlt: 'Beautifully staged short-term rental living room optimized for Airbnb listing photos',
   author: 'PricEye Team',
+  keywords: [
+    'airbnb search ranking algorithm',
+    'optimize airbnb listing',
+    'airbnb SEO 2026',
+    'airbnb listing optimization',
+    'increase airbnb visibility',
+    'airbnb photography tips',
+    'airbnb instant book',
+    'improve airbnb ranking',
+  ],
   relatedSlugs: [
     'priceye-ai-analyzes-100-market-factors',
     'future-short-term-rentals-trends-2026',

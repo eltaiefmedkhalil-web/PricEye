@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Clock, ArrowRight, ArrowLeft } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -8,13 +9,70 @@ export default function BlogIndex() {
   const featured = allPosts[0];
   const rest = allPosts.slice(1);
 
+  const blogSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'PricEye Blog - Dynamic Pricing & Airbnb Revenue Insights',
+    description: 'Expert insights on AI-powered dynamic pricing, Airbnb revenue optimization, short-term rental strategies, and property management growth from PricEye.',
+    url: 'https://priceye-ai.com/blog',
+    publisher: {
+      '@type': 'Organization',
+      name: 'PricEye',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://priceye-ai.com/priceye_640_x_640.png',
+      },
+    },
+    blogPost: allPosts.map((post) => ({
+      '@type': 'BlogPosting',
+      headline: post.title,
+      url: `https://priceye-ai.com/blog/${post.slug}`,
+      datePublished: post.date,
+      image: post.image,
+    })),
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://priceye-ai.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://priceye-ai.com/blog',
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-midnight-900 text-white">
       <SEO
-        title="Blog - Dynamic Pricing & Airbnb Revenue Insights"
-        description="Expert articles on AI dynamic pricing, Airbnb revenue management, and short-term rental strategies from the PricEye team."
+        title="Airbnb Dynamic Pricing Blog | Revenue Optimization Tips & Strategies | PricEye"
+        description="Master Airbnb revenue management with expert guides on AI dynamic pricing, listing optimization, rental business scaling, and industry trends. Free insights from PricEye AI."
         canonical="/blog"
       />
+      <Helmet>
+        <meta name="keywords" content="airbnb dynamic pricing, short-term rental pricing, vacation rental revenue management, airbnb optimization, rental pricing strategy, property manager tools, airbnb revenue, dynamic pricing AI, rental business growth, airbnb listing optimization" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Airbnb Dynamic Pricing Blog | Revenue Optimization Tips | PricEye" />
+        <meta property="og:description" content="Expert articles on AI dynamic pricing, Airbnb revenue optimization, and scaling your short-term rental business. Free insights from PricEye." />
+        <meta property="og:url" content="https://priceye-ai.com/blog" />
+        <meta property="og:image" content="https://priceye-ai.com/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Airbnb Dynamic Pricing Blog | Revenue Optimization Tips | PricEye" />
+        <meta name="twitter:description" content="Expert articles on AI dynamic pricing, Airbnb revenue optimization, and scaling your short-term rental business." />
+        <meta name="twitter:image" content="https://priceye-ai.com/og-image.png" />
+        <link rel="alternate" type="application/rss+xml" title="PricEye Blog RSS Feed" href="https://priceye-ai.com/blog/rss.xml" />
+        <script type="application/ld+json">{JSON.stringify(blogSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      </Helmet>
 
       <header className="pt-24 lg:pt-32 pb-12 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/8 via-brand-secondary/5 to-transparent" />
