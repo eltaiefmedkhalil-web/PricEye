@@ -15,6 +15,7 @@ export default function Navbar() {
     { name: 'Pricing', href: '#pricing' },
     { name: 'For Whom?', href: '#audience' },
     { name: 'FAQ', href: '#faq' },
+    { name: 'Free Tools', href: '/tools', isRoute: true },
     { name: 'Blog', href: '/blog', isRoute: true },
     {
       name: 'Partnerships',

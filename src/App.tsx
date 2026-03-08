@@ -21,6 +21,10 @@ import { Account } from './pages/Account';
 
 const BlogIndex = lazy(() => import('./pages/BlogIndex'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
+const ToolsHub = lazy(() => import('./pages/ToolsHub'));
+const RevenueCalculator = lazy(() => import('./pages/tools/RevenueCalculator'));
+const HouseRulesGenerator = lazy(() => import('./pages/tools/HouseRulesGenerator'));
+const CleaningFeeOptimizer = lazy(() => import('./pages/tools/CleaningFeeOptimizer'));
 
 function LazyFallback() {
   return (
@@ -104,6 +108,10 @@ function AppRoutes() {
       <Route path="/account" element={user ? <Account /> : <Navigate to="/login" replace />} />
       <Route path="/blog" element={<Suspense fallback={<LazyFallback />}><BlogIndex /></Suspense>} />
       <Route path="/blog/:slug" element={<Suspense fallback={<LazyFallback />}><BlogPost /></Suspense>} />
+      <Route path="/tools" element={<Suspense fallback={<LazyFallback />}><ToolsHub /></Suspense>} />
+      <Route path="/tools/revenue-calculator" element={<Suspense fallback={<LazyFallback />}><RevenueCalculator /></Suspense>} />
+      <Route path="/tools/house-rules" element={<Suspense fallback={<LazyFallback />}><HouseRulesGenerator /></Suspense>} />
+      <Route path="/tools/cleaning-fee" element={<Suspense fallback={<LazyFallback />}><CleaningFeeOptimizer /></Suspense>} />
     </Routes>
   );
 }
